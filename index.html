@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ремонт компьютеров</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="лого/logo.jpg" type="image/png">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1>Профессиональный ремонт компьютеров</h1>
+      <p>Срочный выезд. Гарантия на все услуги. Бесплатная диагностика.</p>
+      <a href="#contact" class="btn">Заказать ремонт</a>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section class="about">
+    <div class="container">
+      <h2>О нас</h2>
+      <p>Мы — команда опытных IT-специалистов, которые занимаются ремонтом и обслуживанием компьютеров, ноутбуков и другой техники. Работаем быстро, качественно и по доступным ценам.</p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <div class="container">
+      <h2>Наши услуги</h2>
+      <div class="service-cards">
+       <div class="card" data-aos="zoom-in" data-aos-delay="100">
+  <a class="a" href="ремонт ноутбуков/not.html">
+    <img src="https://img.icons8.com/ios-filled/50/000000/laptop.png" alt="Ноутбук"/>
+    <h3>Ремонт ноутбуков</h3>
+  </a>
+</div>
+<div class="card" data-aos="zoom-in" data-aos-delay="100">
+  <a class="a" href="Заказ сайта/site.html">
+    <img src="https://166tech.az/public/uploads/solutions/37419379.webp" alt="Сайт"/>
+    <h3>Заказать Сайт</h3>
+  </a>
+</div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+        <a class="a" href="отзыв/index.html">
+          <img src="https://static.vecteezy.com/system/resources/previews/065/858/276/non_2x/checklist-and-approve-in-black-filled-color-vector.jpg" alt="Диагностика"/>
+          <h3>Оставить отзыв</h3>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- Contact -->
+   
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2>Задать вопрос</h2>
+      <form id="contactForm">
+  <input type="text" name="name" placeholder="Ваше имя" required />
+  <input type="tel" name="phone" placeholder="Телефон" required />
+  <textarea name="message" placeholder="Что случилось с компьютером?" required></textarea>
+  <button type="submit">Отправить</button>
+</form>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-message">Сообщение...</p>
+  </div>
+</div>
+      <div id="status"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 РемонтКомп. Все права защищены.</p>
+    </div>
+  </footer>
+<script>
+  const TOKEN = '8453522863:AAGG8lNCVUHniBBBvUUDpXRpmcs7j15He4g'; // замените на токен вашего бота
+  const CHAT_ID = '-4663600702'; // замените на ваш chat_id
+  
+  const API_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+  const form = document.getElementById('contactForm');
+  const modal = document.getElementById('modal');
+  const modalMessage = document.getElementById('modal-message');
+  const closeModal = document.querySelector('.close');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = form.name.value.trim();
+    const phone = form.phone.value.trim();
+    const message = form.message.value.trim();
+
+    const text = `🛠 <b>Вопрос от клиента</b>\n\n👤 Имя: <b>${name}</b>\n📞 Телефон: <b>${phone}</b>\n💬 Сообщение: <b>${message}</b>`;
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        modalMessage.innerText = '✅ Заявка успешно отправлена!';
+        form.reset();
+      } else {
+        modalMessage.innerText = '❌ Ошибка при отправке. Попробуйте позже.';
+      }
+      modal.style.display = 'block';
+    })
+    .catch(err => {
+      console.error(err);
+      modalMessage.innerText = '❌ Не удалось отправить. Проверьте соединение.';
+      modal.style.display = 'block';
+    });
+  });
+
+  // Закрытие модального окна
+  closeModal.onclick = function () {
+    modal.style.display = 'none';
+  };
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true
+  });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
