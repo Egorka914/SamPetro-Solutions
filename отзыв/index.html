@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Отзыв</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.jpg" type="image/png">
+</head>
+<body>
+
+  <h1>Отзывы</h1>
+
+  <form id="reviewForm">
+    <input type="text" id="name" placeholder="Ваше имя" required>
+    <textarea id="message" placeholder="Ваш отзыв" rows="4" required></textarea>
+    <button type="submit">Оставить отзыв</button>
+  </form>
+
+  <div id="reviewsContainer"></div>
+
+  <!-- Скрытая зона для входа в админку -->
+  <div id="adminTrigger" title="Админ вход"></div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwfg_Z9rVt9zXMhFGvCe33DwN7O25EWiaYgybiNxw1Oclbm4twJN0-gDLMN4pc_MGLt0w/exec"; // 🔗 сюда вставь ссылку из Apps Script
+    const form = document.getElementById('reviewForm');
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    const adminTrigger = document.getElementById('adminTrigger');
+
+    let isAdmin = false;
+    const adminPassword = '1'; // 🔐 пароль админа
+
+    // Загрузка отзывов из Google Sheets
+    async function loadReviews() {
+      try {
+        const res = await fetch(API_URL);
+        const reviews = await res.json();
+        renderAllReviews(reviews);
+      } catch (err) {
+        console.error("Ошибка загрузки:", err);
+      }
+    }
+
+    // Отображение всех отзывов
+    function renderAllReviews(reviews) {
+      reviewsContainer.innerHTML = '';
+      reviews.forEach((review, index) => {
+        addReviewToDOM(review.name, review.message, index);
+      });
+    }
+
+    // Добавление одного отзыва
+    function addReviewToDOM(name, message, index) {
+      const review = document.createElement('div');
+      review.className = 'review';
+      if (isAdmin) review.classList.add('admin');
+
+      review.innerHTML = `
+        <strong>${name}</strong>
+        <p>${message}</p>
+        ${isAdmin ? `<button class="delete-btn" data-index="${index}">Удалить</button>` : ""}
+      `;
+
+      if (isAdmin) {
+        review.querySelector('.delete-btn').addEventListener('click', async function () {
+          await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ delete: index }) // 🗑️ команда на удаление
+          });
+          loadReviews();
+        });
+      }
+
+      reviewsContainer.appendChild(review); // отзывы добавляются внизу
+    }
+
+    // Отправка нового отзыва
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (name && message) {
+        await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, message })
+        });
+        form.reset();
+        loadReviews();
+      }
+    });
+
+    // 🔐 Вход в админку
+    adminTrigger.addEventListener('click', function () {
+      const input = prompt('Введите пароль администратора:');
+      if (input === adminPassword) {
+        isAdmin = true;
+        alert('Режим администратора включён');
+        loadReviews();
+      } else if (input !== null) {
+        alert('Неверный пароль');
+      }
+    });
+
+    loadReviews();
+  </script>
+
+</body>
+</html>
