@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Прайс на ремонт ПК</title>
+  <link rel="stylesheet" href="stnot.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="лого/logo.jpg" type="image/png">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>Прайс-лист на ремонт ПК</h1>
+      <p>Актуальные цены на услуги по ремонту и обслуживанию компьютеров</p>
+    </div>
+  </header>
+
+  <!-- Price Table -->
+  <section class="pricing">
+    <div class="container">
+      <h2>Цены на услуги</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Диагностика компьютера</td>
+            <td>Бесплатно</td>
+          </tr>
+          <tr>
+            <td>Чистка от пыли с заменой термопасты</td>
+            <td>1000 ₽</td>
+          </tr>
+          <tr>
+            <td>Переустановка Windows (с драйверами)</td>
+            <td>1200 ₽</td>
+          </tr>
+          <tr>
+            <td>Настройка интернета и Wi-Fi</td>
+            <td>800 ₽</td>
+          </tr>
+          <tr>
+            <td>Удаление вирусов</td>
+            <td>1000 ₽</td>
+          </tr>
+          <tr>
+            <td>Замена комплектующих (ОЗУ, БП и др.)</td>
+            <td>от 500 ₽</td>
+          </tr>
+          <tr>
+            <td>Сборка нового ПК</td>
+            <td>2000 ₽</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Why Us -->
+  <section class="features">
+    <div class="container">
+      <h2>Почему выбирают нас</h2>
+      <ul>
+        <li>✔️ Бесплатная диагностика</li>
+        <li>✔️ Выезд на дом</li>
+        <li>✔️ Опыт более 7 лет</li>
+        <li>✔️ Гарантия на все работы</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+    <section class="contact" id="contact">
+    <div class="container">
+      <h2>Подать заявку</h2>
+      <form id="contactForm">
+  <input type="text" name="name" placeholder="Ваше имя" required />
+  <input type="tel" name="phone" placeholder="Телефон" required />
+  <textarea name="message" placeholder="Что случилось с компьютером?" required></textarea>
+  <button type="submit">Отправить</button>
+</form>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-message">Сообщение...</p>
+  </div>
+</div>
+      <div id="status"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 ПК-Сервис. Все права защищены.</p>
+    </div>
+  </footer>
+<script>
+  const TOKEN = '8453522863:AAGG8lNCVUHniBBBvUUDpXRpmcs7j15He4g'; // замените на токен вашего бота
+  const CHAT_ID = '-4663600702'; // замените на ваш chat_id
+  
+  const API_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+  const form = document.getElementById('contactForm');
+  const modal = document.getElementById('modal');
+  const modalMessage = document.getElementById('modal-message');
+  const closeModal = document.querySelector('.close');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = form.name.value.trim();
+    const phone = form.phone.value.trim();
+    const message = form.message.value.trim();
+
+    const text = `🛠 <b>Ремонт техники</b>\n\n👤 Имя: <b>${name}</b>\n📞 Телефон: <b>${phone}</b>\n💬 Сообщение: <b>${message}</b>`;
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        modalMessage.innerText = '✅ Заявка успешно отправлена!';
+        form.reset();
+      } else {
+        modalMessage.innerText = '❌ Ошибка при отправке. Попробуйте позже.';
+      }
+      modal.style.display = 'block';
+    })
+    .catch(err => {
+      console.error(err);
+      modalMessage.innerText = '❌ Не удалось отправить. Проверьте соединение.';
+      modal.style.display = 'block';
+    });
+  });
+
+  // Закрытие модального окна
+  closeModal.onclick = function () {
+    modal.style.display = 'none';
+  };
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+</body>
+</html>
