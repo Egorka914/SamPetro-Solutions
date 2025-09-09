@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Отзыв</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="лого/logo.jpg" type="image/png">
+</head>
+<body>
+
+  <h1>Отзыв</h1>
+
+  <form id="reviewForm">
+    <input type="text" id="name" placeholder="Ваше имя" required>
+    <textarea id="message" placeholder="Ваш отзыв" rows="4" required></textarea>
+    <button type="submit">Оставить отзыв</button>
+  </form>
+
+  <div id="reviewsContainer"></div>
+
+  <!-- Скрытая зона для входа в админку -->
+  <div id="adminTrigger" title="Админ вход"></div>
+
+  <script>
+    const form = document.getElementById('reviewForm');
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    const adminTrigger = document.getElementById('adminTrigger');
+
+    let savedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    let isAdmin = false;
+    const adminPassword = '1'; // 🔐 ЗДЕСЬ ЗАДАЙ ПАРОЛЬ
+
+    function renderAllReviews() {
+      reviewsContainer.innerHTML = '';
+      [...savedReviews].reverse().forEach((review, index) => {
+        addReviewToDOM(review.name, review.message, savedReviews.length - 1 - index);
+      });
+    }
+
+    function addReviewToDOM(name, message, index) {
+      const review = document.createElement('div');
+      review.className = 'review';
+      if (isAdmin) review.classList.add('admin');
+
+      review.innerHTML = `
+        <strong>${name}</strong>
+        <p>${message}</p>
+        <button class="delete-btn" data-index="${index}">Удалить</button>
+      `;
+
+      review.querySelector('.delete-btn').addEventListener('click', function () {
+        const idx = this.dataset.index;
+        savedReviews.splice(idx, 1);
+        localStorage.setItem('reviews', JSON.stringify(savedReviews));
+        renderAllReviews();
+      });
+
+      reviewsContainer.prepend(review);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (name && message) {
+        const newReview = { name, message };
+        savedReviews.push(newReview);
+        localStorage.setItem('reviews', JSON.stringify(savedReviews));
+        renderAllReviews();
+        form.reset();
+      }
+    });
+
+    // 🔐 Клик по скрытой зоне
+    adminTrigger.addEventListener('click', function () {
+      const input = prompt('Введите пароль администратора:');
+      if (input === adminPassword) {
+        isAdmin = true;
+        alert('Режим администратора включён');
+        renderAllReviews();
+      } else if (input !== null) {
+        alert('Неверный пароль');
+      }
+    });
+
+    renderAllReviews();
+  </script>
+
+</body>
+</html>
