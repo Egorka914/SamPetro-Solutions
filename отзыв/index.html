@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Отзывы</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="logo.jpg" type="image/png">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Отзывы</h1>
+
+  <form id="reviewForm">
+    <input type="text" id="name" placeholder="Ваше имя" required>
+    <textarea id="message" placeholder="Ваш отзыв" rows="4" required></textarea>
+    <button type="submit">Оставить отзыв</button>
+  </form>
+
+  <div id="reviewsContainer"></div>
+
+  <!-- Скрытая зона для входа в админку -->
+  <div id="adminTrigger" title="Админ вход"></div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://znfxmiqqwuvlafugwxul.supabase.co";      // <- сюда Project URL
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpuZnhtaXFxd3V2bGFmdWd3eHVsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzQyMjQwMCwiZXhwIjoyMDcyOTk4NDAwfQ.IO4AGgUsE2k22dUauHDSuOt0xQdmd_9amBSqQwnU0vg";                        // <- сюда anon key
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const reviewsContainer = document.getElementById('reviewsContainer');
+  const form = document.getElementById('reviewForm');
+
+  async function loadReviews() {
+    const { data, error } = await db
+      .from('reviews')
+      .select('*')
+      .eq('status', 'active')
+      .order('created_at', { ascending: false });
+    if (error) { console.error('Ошибка загрузки', error); return; }
+    renderAllReviews(data);
+  }
+
+  function renderAllReviews(reviews) {
+    reviewsContainer.innerHTML = '';
+    reviews.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'review';
+      div.innerHTML = `
+        <strong>${escapeHtml(r.name)}</strong>
+        <p>${escapeHtml(r.message)}</p>
+      `;
+      // админская кнопка (показывать по своему паролю)
+      if (isAdmin) {
+        const btn = document.createElement('button');
+        btn.textContent = 'Удалить';
+        btn.onclick = () => deleteReview(r.id);
+        div.appendChild(btn);
+      }
+      reviewsContainer.appendChild(div);
+    });
+  }
+
+  async function addReview(name, message) {
+    const { error } = await db.from('reviews').insert([{ name, message, status: 'active' }]);
+    if (error) console.error('Ошибка добавления', error);
+  }
+
+  // --- Вариант A: удаление прямо с anon ключом (НЕ безопасно, но быстро) ---
+  async function deleteReview(id) {
+    const { error } = await db.from('reviews').update({ status: 'deleted' }).eq('id', id);
+    if (error) console.error('Ошибка удаления', error);
+  }
+
+  // --- Вариант B: вызов serverless (рекомендуется) ---
+  // async function deleteReview(id) {
+  //   await fetch('/.netlify/functions/admin-delete', {
+  //     method: 'POST', headers: {'Content-Type':'application/json'},
+  //     body: JSON.stringify({ id, secret: 'ADMIN_PASSWORD' })
+  //   });
+  // }
+
+  // utilities
+  function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+  let isAdmin = false;
+  const adminTrigger = document.getElementById('adminTrigger');
+  adminTrigger.addEventListener('click', ()=>{
+    const p = prompt('Пароль админа:');
+    if (p === '1') { isAdmin = true; loadReviews(); alert('Админ режим'); } else if (p !== null) alert('Неверно');
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!name || !message) return;
+    await addReview(name, message);
+    form.reset();
+  });
+db.channel('reviews-changes')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, payload => {
+    console.log('Realtime:', payload);
+    loadReviews();
+  })
+  .subscribe();
+  console.log("KEY:", SUPABASE_KEY.slice(0, 20));
+  loadReviews();
+</script>
+
+</body>
+</html>
