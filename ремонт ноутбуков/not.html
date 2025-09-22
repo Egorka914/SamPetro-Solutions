@@ -1,0 +1,272 @@
+  <!DOCTYPE html>
+  <html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прайс на ремонт ПК</title>
+    <link rel="stylesheet" href="stnot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo.jpg" type="image/png">
+    
+  </head>
+  <body>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <h1>Прайс-лист на ремонт ПК</h1>
+        <p>Актуальные цены на услуги по ремонту и обслуживанию компьютеров</p>
+      </div>
+    </header>
+
+    <!-- Price Table -->
+    <div class="price-cards">
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Диагностика компьютера</span>
+    <span class="label">Цена</span>
+    <span class="value">Бесплатно</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Чистка от пыли с заменой термопасты</span>
+    <span class="label">Цена</span>
+    <span class="value">от 1000 ₽</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Переустановка Windows (с драйверами)</span>
+    <span class="label">Цена</span>
+    <span class="value">от 1200 ₽</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Настройка интернета и Wi-Fi</span>
+    <span class="label">Цена</span>
+    <span class="value">от 800 ₽</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Удаление вирусов</span>
+    <span class="label">Цена</span>
+    <span class="value">от 1000 ₽</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Замена комплектующих (ОЗУ, БП и др.)</span>
+    <span class="label">Цена</span>
+    <span class="value">от 500 ₽</span>
+  </div>
+
+  <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Сборка нового ПК</span>
+    <span class="label">Цена</span>
+    <span class="value">Договорная</span>
+  </div>
+   <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Подлючение и настройка камер</span>
+    <span class="label">Цена</span>
+    <span class="value">от 5000 ₽</span>
+  </div>
+   <div class="price-card zoom-in">
+    <span class="label">Услуга</span>
+    <span class="value">Диагностика и ремонт приставок (PS,Xbox)</span>
+    <span class="label">Цена</span>
+    <span class="value">от 1000 ₽</span>
+  </div>
+</div>
+
+
+
+
+    <!-- Why Us -->
+    <section class="features hidden">
+    <div class="container">
+      <section class="features slide-left">
+  <h2>Почему выбирают нас</h2>
+  <div class="feature" data-aos="fade-up">
+</section>
+      <div class="features-grid">
+        <div class="feature-card slide-right">✔️ Бесплатная диагностика</div>
+        <div class="feature-card slide-right">✔️ Выезд на дом</div>
+        <div class="feature-card slide-right">✔️ Хорошие отзывы</div>
+        <div class="feature-card slide-right">✔️ Гарантия на все работы</div>
+        <div class="feature-card slide-right">✔️ Подберём любой ПК за любой бюджет</div>
+        <div class="feature-card slide-right">✔️ Делаем всё качествено</div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+    <!-- CTA -->
+    <section class="contact hidden" id="contact">
+      <div class="container">
+        <h2>Подать заявку</h2>
+        <form id="contactForm">
+          <input type="text" name="name" placeholder="Ваше имя" required />
+          <input type="tel" name="phone" placeholder="Телефон" required />
+          <textarea name="message" placeholder="Что случилось с компьютером?" required></textarea>
+          <button type="submit">Отправить</button>
+        </form>
+       
+    </section>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-message">Сообщение...</p>
+  </div>
+</div>
+    <!-- Footer -->
+    <footer class="footer hidden">
+  
+    <div class="container">
+     
+      
+      
+        <p >📞 <strong class="telp-1">+7 (938) 144-69-91 Егор</strong></p> 
+        <p> 📞<strong class="telp-1">+7 (928) 151-85-15 Дмитрий</strong></p>
+       <p>  ✉ <a class="telp" href="mailto:samo.remont.pk@mail.ru">samo.remont.pk@mail.ru</a></p>
+  <p>&copy; 2025 SamPetro-Solutions. Все права защищены.</p>
+    </div>
+  </footer>
+
+
+  <div id="repair-overlay">
+  <div class="master">
+    🔨
+  </div>
+  <p class="repair-text">Мастер чинит ваш ПК...</p>
+</div>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+ const TOKEN = '8453522863:AAGG8lNCVUHniBBBvUUDpXRpmcs7j15He4g'; // замените на токен вашего бота
+  const CHAT_ID = '-4663600702'; // замените на ваш chat_id
+  
+  const API_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    const form = document.getElementById('contactForm');
+    const modal = document.getElementById('modal');
+    const modalMessage = document.getElementById('modal-message');
+    const closeModal = document.querySelector('.close');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = form.name.value.trim();
+      const phone = form.phone.value.trim();
+      const message = form.message.value.trim();
+
+      const text = `🛠 <b>Ремонт техники</b>\n\n👤 Имя: <b>${name}</b>\n📞 Телефон: <b>${phone}</b>\n💬 Сообщение: <b>${message}</b>`;
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: text,
+          parse_mode: 'HTML'
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          modalMessage.innerText = '✅ Заявка успешно отправлена!';
+          form.reset();
+        } else {
+          modalMessage.innerText = '❌ Ошибка при отправке. Попробуйте позже.';
+        }
+        modal.style.display = 'flex';
+      })
+      .catch(err => {
+        console.error(err);
+        modalMessage.innerText = '❌ Не удалось отправить. Проверьте соединение.';
+        modal.style.display = 'flex';
+      });
+    });
+
+    // Закрытие модального окна
+    closeModal.onclick = function () {
+      modal.style.display = 'none';
+    };
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+
+    // Анимация при скролле
+    const observers = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 1 });
+
+    document.querySelectorAll('.hidden, .features li').forEach(el => observers.observe(el));
+  </script>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const heading = entry.target.querySelector("h2");
+        const cards = entry.target.querySelectorAll(".price-card, .feature-card");
+
+        // Заголовок появляется первым
+        if (heading) {
+          heading.classList.add("show-slide-top");
+        }
+
+        // Карточки появляются по очереди
+        if (cards.length > 0) {
+          cards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add("show-slide-right");
+            }, (index + 7) * 300);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Наблюдаем за секциями
+  document.querySelectorAll('.price-cards, .features, .contact, .footer')
+    .forEach(section => observer.observe(section));
+</script>
+<script>
+window.addEventListener("load", () => {
+  // 1. Начинаем падение
+  document.body.classList.add("crash");
+
+  // 2. Показываем мастера через 0.5 сек
+  const overlay = document.getElementById("repair-overlay");
+  setTimeout(() => {
+    overlay.classList.add("active");
+  }, 100);
+
+  // 3. Через 3 секунды заканчиваем работу мастера и поднимаем блоки
+  setTimeout(() => {
+    overlay.classList.remove("active");
+    document.body.classList.remove("crash");
+    document.body.classList.add("restored");
+  }, 2500);
+
+  // 4. Убираем overlay через 4 секунды
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 4000);
+});
+
+</script>
+
+
+
+
+  </body>
+  </html>
