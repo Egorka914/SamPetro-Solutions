@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Заказ сайтов</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style1.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <link rel="icon" href="logo.jpg" type="image/png">
+</head>
+<body>
+<div id="preloader">
+  <p id="typing-text"></p>
+</div>
+
+
+<div class="main-content">
+ 
+
+  <header class="hero">
+    <div class="container" data-aos="fade-up">
+      <h1>Создание современных сайтов</h1>
+      <p>Закажите красивый, адаптивный сайт под ключ</p>
+      <a href="#contact" class="btn">Заказать сайт</a>
+    </div>
+  </header>
+
+  <section class="about" data-aos="fade-up">
+    <div class="container">
+      <h2>Почему выбирают нас</h2>
+      <div class="features">
+        <div class="feature" data-aos="fade-right">
+          <h3>Дизайн</h3>
+          <p>Современный, анимированный дизайн под ваш бренд</p>
+        </div>
+        <div class="feature" data-aos="fade-up">
+          <h3>Скорость</h3>
+          <p>Быстрая загрузка и оптимизация под SEO</p>
+        </div>
+        <div class="feature" data-aos="fade-left">
+          <h3>Поддержка</h3>
+          <p>Помощь и сопровождение после запуска</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio" data-aos="fade-up">
+    <div class="container">
+      <h2>Примеры работ</h2>
+      <div class="projects">
+        <img src="https://avatars.mds.yandex.net/i?id=a5b16c0339f4cb20469537e7c5b5d2cb_l-5683625-images-thumbs&n=13" alt="Пример 1" data-aos="zoom-in" />
+        <img src="https://avatars.mds.yandex.net/i?id=a5b16c0339f4cb20469537e7c5b5d2cb_l-5683625-images-thumbs&n=13" alt="Пример 2" data-aos="zoom-in" />
+        <img src="https://avatars.mds.yandex.net/i?id=a5b16c0339f4cb20469537e7c5b5d2cb_l-5683625-images-thumbs&n=13" alt="Пример 3" data-aos="zoom-in" />
+      </div>
+    </div>
+  </section>
+
+  <section class="prices" data-aos="fade-up">
+    <div class="container">
+      <h2>Тарифы</h2>
+      <div class="cards">
+        <div class="card" data-aos="flip-left">
+          <h3>Старт</h3>
+          <p>Одностраничный сайт</p>
+          <p class="price">10 000 ₽</p>
+        </div>
+        <div class="card" data-aos="flip-left" data-aos-delay="100">
+          <h3>Бизнес</h3>
+          <p>Сайт до 5 страниц</p>
+          <p class="price">20 000 ₽</p>
+        </div>
+        <div class="card" data-aos="flip-left" data-aos-delay="200">
+          <h3>Премиум</h3>
+          <p>Индивидуальный проект</p>
+          <p class="price">от 30 000 ₽</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<div class="feature" data-aos="fade-up">
+  <section class="contact" id="contact" >
+    <div class="container">
+      <h2>Связаться с нами</h2>
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Ваше имя" required />
+        <input type="tel" name="phone" placeholder="Телефон" required />
+        <textarea name="message" placeholder="Вопрос по сайту" required></textarea>
+        <button type="submit" class="btn">Отправить</button>
+      </form>
+      <div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-message">Сообщение...</p>
+  </div>
+</div>
+      <div id="status"></div>
+    </div>
+  </section>
+  </div>
+
+ <footer>
+    <div class="container">
+     
+      
+      
+        <p >📞 <strong class="telp-1" >+7 (938) 144-69-91 Егор</strong></p> 
+        <p> 📞<strong class="telp-1">+7 (928) 151-85-15 Дмитрий</strong></p>
+       <p>  ✉ <a class="telp" href="mailto:samo.remont.pk@mail.ru">samo.remont.pk@mail.ru</a></p>
+       <p>&copy; 2025 SamPetro-Solutions. Все права защищены.</p>
+    </div>
+  </footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+   AOS.init({
+  offset: 400,
+  duration: 1000,
+  easing: 'ease-in-quad',
+  delay: 100,
+});
+  </script>
+  <script>
+  const TOKEN = '8453522863:AAGG8lNCVUHniBBBvUUDpXRpmcs7j15He4g'; // замените на токен вашего бота
+  const CHAT_ID = '-4663600702'; // замените на ваш chat_id
+  
+  const API_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+  const form = document.getElementById('contactForm');
+  const modal = document.getElementById('modal');
+  const modalMessage = document.getElementById('modal-message');
+  const closeModal = document.querySelector('.close');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = form.name.value.trim();
+    const phone = form.phone.value.trim();
+    const message = form.message.value.trim();
+
+    const text = `🛠 <b>Заказ сайта</b>\n\n👤 Имя: <b>${name}</b>\n📞 Телефон: <b>${phone}</b>\n💬 Сообщение: <b>${message}</b>`;
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        modalMessage.innerText = '✅ Заявка успешно отправлена!';
+        form.reset();
+      } else {
+        modalMessage.innerText = '❌ Ошибка при отправке. Попробуйте позже.';
+      }
+      modal.style.display = 'block';
+    })
+    .catch(err => {
+      console.error(err);
+      modalMessage.innerText = '❌ Не удалось отправить. Проверьте соединение.';
+      modal.style.display = 'block';
+    });
+  });
+
+  // Закрытие модального окна
+  closeModal.onclick = function () {
+    modal.style.display = 'none';
+  };
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const text = "Мы создаём страницу...";
+  const typingText = document.getElementById("typing-text");
+  let index = 0;
+
+  function type() {
+    if (index < text.length) {
+      typingText.textContent += text[index];
+      index++;
+      setTimeout(type, 100); // скорость печати
+    } else {
+      setTimeout(() => {
+        document.getElementById("preloader").style.display = "none";
+      }, 500); // задержка перед исчезновением
+    }
+  }
+
+  type();
+});
+</script>
+
+</body>
+</html>
